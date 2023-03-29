@@ -255,42 +255,42 @@ Generally that will be all.<br />
 I worked in project where we have lots of repositories, where we have few API, with common setup, in each we have autorization, swagger, logs, etc. <br />
 To have one place to maitanance this all we can create small helper, so lets create file WebApiHelper.
 ```
-    public static class WebApiHelper
+public static class WebApiHelper
+{
+    public static void Run(
+    string[] args,
+    Action<WebApplicationBuilder, IServiceCollection, ConfigurationManager> configureWebAppBuilder = null,
+    Action<WebApplication> configureWebApp = null,
+    string sectionName = "WebApi")
     {
-        public static void Run(
-        string[] args,
-        Action<WebApplicationBuilder, IServiceCollection, ConfigurationManager> configureWebAppBuilder = null,
-        Action<WebApplication> configureWebApp = null,
-        string sectionName = "WebApi")
+        var builder = WebApplication.CreateBuilder(args);
+        var configuration = builder.Configuration;
+        var services = builder.Services;
+
+        if (configureWebAppBuilder is not null)
         {
-            var builder = WebApplication.CreateBuilder(args);
-            var configuration = builder.Configuration;
-            var services = builder.Services;
-
-            if (configureWebAppBuilder is not null)
-            {
-                configureWebAppBuilder(builder, services, configuration);
-            }
-
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(conf =>
-            {
-                conf.CustomSchemaIds(_ => _.FullName);
-            });
-
-            var app = builder.Build();
-
-            if (configureWebApp is not null)
-            {
-                configureWebApp(app);
-            }
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            app.Run();
+            configureWebAppBuilder(builder, services, configuration);
         }
+
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(conf =>
+        {
+            conf.CustomSchemaIds(_ => _.FullName);
+        });
+
+        var app = builder.Build();
+
+        if (configureWebApp is not null)
+        {
+            configureWebApp(app);
+        }
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        app.Run();
     }
+}
 ```
 We can find here argument with name sectionName, I don't used this now, but in my solution I creted basic configuration, and base on this, adding some functionality.<br />
 Lets look now on our startup app.
