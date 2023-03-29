@@ -1,23 +1,18 @@
 # Minimal WebApi
-How much do we need to run API?<br />
-Only one file (Program.cs) with 3 line of code
-
+How much do we need to run Web API?<br />
+Only one file with 3 line of code.
 ```
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 app.Run();
 ```
-
-With this, we don't received anything, but is running.
+With this, we don't have to much, but is running.
 
 ![image](https://user-images.githubusercontent.com/11536139/228447534-6023cc84-0cdb-4389-980a-d34b26f84e86.png)
 
-It is worth noting that we do not have a namespace and a declared class here.
-
-Usually we using Swagger so let's do that, install package Swashbuckle.AspNetCore.
-
+We do not have a namespace and a declared class here.<br />
+Usually we using Swagger, so let's add this, install package: Swashbuckle.AspNetCore.<br />
 We need add more code, declare configuration (for now not needed) and service, next we need add endpoint explorer, configure Swagger, and told our APP to use Swagger.
-
 ```
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -36,7 +31,6 @@ app.UseSwaggerUI();
 
 app.Run();
 ```
-
 We can setup in Properties/launchSettings.json to open browser and open Swagger UI
 ```
 "MinimalWebApi": {
@@ -55,7 +49,8 @@ Run
 
 ![image](https://user-images.githubusercontent.com/11536139/228445504-e407d55e-732a-472c-8c6c-b7268846c36c.png)
 
-Great, but still we don't have any endpoints, so lets add them, we will adding whitout standard approach with controller file, we will define endpoint in the same place.
+Great, but still we don't have any endpoints, so let's add them.<br />
+We will adding without standard approach with controller file, but we will define endpoint in the same place.<br />
 So affter builder.Build() lets add first endpoint.
 ```
 app.MapGet("random-values/{id}", (int id) => new { Id = id, Values = "some value" });
@@ -70,7 +65,7 @@ app.MapGet("random-values/{id}", (int id) => new RandomValue(id, "some value"));
 
 Now looks better.
 
-Ok, add more endpoint, for this RandomValue, and add something more, for example IdName.
+Ok, now add more endpoint, for object RandomValue, and add something more, for example IdName.
 ```
 app.MapGet("random-values/", () =>
 {
@@ -94,10 +89,8 @@ app.MapGet("id-name/", () =>
 });
 app.MapGet("id-name/{id}", (int id) => new RandomValue(id, "Name"));
 ```
-In Swagger we can see that we don't have grouped this.
-
 ![image](https://user-images.githubusercontent.com/11536139/228445670-a7418153-5f21-4381-86a1-3382978012eb.png)
-
+In Swagger we see that we don't have it grouped.<br />
 Lets fixed this.<br />
 We need add .WithTags("") after all map.
 ```
@@ -145,7 +138,9 @@ app.MapPut("id-name/", (IdName input, IIdNameRepo repo) => repo.Update(input)).W
 ```
 Works!!!
 
-Lets back to DRY, still we repeted name of functionality, of course the easiest way will be declate some variable and used this. I will show how create builder for this.<br />
+Lets back to DRY, still we repeted name of functionality.<br />
+Of course the easiest way will be declate some variable and used this.<br />
+I will show how create builder for this.<br />
 Create new file ControllerRoute, in here we are implement route mapping into WebApplication.
 ```
 public class ControllerRoute
@@ -188,7 +183,7 @@ public class ControllerRoute
 }
 ```
 Now implement what we created, but first move route declaration from main file.<br />
-Create file Extensions/WebApplicationBuilderExtension, and implement our builder
+Create file Extensions/WebApplicationBuilderExtension, and implement our builder.
 ```
 public static class WebApplicationBuilderExtension
 {
