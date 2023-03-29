@@ -10,7 +10,7 @@ app.Run();
 
 With this, we don't received anything, but is running.
 
-![image](https://user-images.githubusercontent.com/11536139/228445349-ce82a334-9881-412b-914a-c834f71dcb46.png)
+![image](https://user-images.githubusercontent.com/11536139/228447534-6023cc84-0cdb-4389-980a-d34b26f84e86.png)
 
 It is worth noting that we do not have a namespace and a declared class here.
 
