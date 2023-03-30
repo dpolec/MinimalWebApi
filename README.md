@@ -90,6 +90,7 @@ app.MapGet("id-name/", () =>
 app.MapGet("id-name/{id}", (int id) => new RandomValue(id, "Name"));
 ```
 ![image](https://user-images.githubusercontent.com/11536139/228445670-a7418153-5f21-4381-86a1-3382978012eb.png)
+
 In Swagger we see that we don't have it grouped.<br />
 Lets fixed this.<br />
 We need add .WithTags("") after all map.
